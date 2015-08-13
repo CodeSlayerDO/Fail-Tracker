@@ -1,0 +1,19 @@
+﻿@model dynamic
+
+@if (ViewData.ModelMetadata.Properties.Any(p => p.ShowForEdit))
+{
+    @Html.AngularAntiForgeryToken()
+}
+
+@foreach(var prop in ViewData.ModelMetadata.Properties.Where(p => p.ShowForEdit))
+{
+    <div class="form-group">
+        @Html.BootstrapLabel(prop.PropertyName)
+        <div class="col-md-10">
+            @Html.Editor(prop.PropertyName,
+                AngularTemplateHelper.GetTemplateForProperty(prop),
+                new { Prefix = ViewBag.Prefix })
+            @Html.ValidationMessage(prop.PropertyName)
+        </div>
+    </div>
+}
